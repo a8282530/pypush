@@ -1,0 +1,16 @@
+ports:
+  - port: 1080
+    onOpen: open-preview
+    description: fastapi App preview
+    visibility: public
+
+# This will make it so that on workspace start it will run a file called `app.py`
+tasks:
+  - init: pip install --upgrade pip && pip install -r requirements.txt
+    command: uvicorn app:app --port 1080 --reload
+  - name: autosave
+    init: |
+      mkdir -p ~/.config/gitpod/
+      echo '{"autosave": true}' > ~/.config/gitpod/settings.json
+  - name: increaseTimeout
+    init: echo "export THEIA_WORKSPACE_IDLE_TIMEOUT=7200" >> ~/.bashrc
